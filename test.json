@@ -1,0 +1,462 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Modern.Api.Komtrax",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Probe": {
+      "get": {
+        "tags": [
+          "Probe"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SearchService/GetAllMachines": {
+      "get": {
+        "tags": [
+          "SearchService"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineSearchResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineSearchResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineSearchResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SearchService/GetAllFoundMachines": {
+      "get": {
+        "tags": [
+          "SearchService"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FoundMachine"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FoundMachine"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FoundMachine"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SearchService/SearchMachines": {
+      "post": {
+        "tags": [
+          "SearchService"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MachineSearchSpecification"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MachineSearchSpecification"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MachineSearchSpecification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineSearchResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineSearchResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineSearchResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DistanceUnit": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "GeographicDirection": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "NearLocation": {
+        "type": "object",
+        "properties": {
+          "Description": {
+            "type": "string",
+            "nullable": true
+          },
+          "Direction": {
+            "$ref": "#/components/schemas/GeographicDirection"
+          },
+          "Distance": {
+            "type": "number",
+            "format": "double"
+          },
+          "Latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "Longitude": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "NearCity": {
+        "type": "object",
+        "properties": {
+          "Description": {
+            "type": "string",
+            "nullable": true
+          },
+          "Direction": {
+            "$ref": "#/components/schemas/GeographicDirection"
+          },
+          "Distance": {
+            "type": "number",
+            "format": "double"
+          },
+          "Latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "Longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "CityName": {
+            "type": "string",
+            "nullable": true
+          },
+          "StateProvince": {
+            "type": "string",
+            "nullable": true
+          },
+          "Country": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MachineLocationInfo": {
+        "type": "object",
+        "properties": {
+          "Latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "Longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "ReportDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "NearestDistributor": {
+            "$ref": "#/components/schemas/NearLocation"
+          },
+          "NearestLandmark": {
+            "$ref": "#/components/schemas/NearLocation"
+          },
+          "NearestCity": {
+            "$ref": "#/components/schemas/NearCity"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MachineSmr": {
+        "type": "object",
+        "properties": {
+          "ReportDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Hours": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MachineOperation": {
+        "type": "object",
+        "properties": {
+          "ReportDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "OperationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "OperationHours": {
+            "type": "number",
+            "format": "double"
+          },
+          "OperationMap": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FoundMachine": {
+        "type": "object",
+        "properties": {
+          "FullModelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Manufacturer": {
+            "type": "string",
+            "nullable": true
+          },
+          "ModelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ModelType": {
+            "type": "string",
+            "nullable": true
+          },
+          "Nickname1": {
+            "type": "string",
+            "nullable": true
+          },
+          "Nickname2": {
+            "type": "string",
+            "nullable": true
+          },
+          "SerialNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "IsProvisioned": {
+            "type": "boolean"
+          },
+          "TimeZone": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "LastReportDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "LastLocation": {
+            "$ref": "#/components/schemas/MachineLocationInfo"
+          },
+          "LastSmr": {
+            "$ref": "#/components/schemas/MachineSmr"
+          },
+          "LastOperation": {
+            "$ref": "#/components/schemas/MachineOperation"
+          },
+          "CustomerName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MachineSearchResult": {
+        "type": "object",
+        "properties": {
+          "StartIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "TotalCountFound": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "DistanceUnit": {
+            "$ref": "#/components/schemas/DistanceUnit"
+          },
+          "Machines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FoundMachine"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Machine": {
+        "type": "object",
+        "properties": {
+          "FullModelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Manufacturer": {
+            "type": "string",
+            "nullable": true
+          },
+          "ModelName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ModelType": {
+            "type": "string",
+            "nullable": true
+          },
+          "Nickname1": {
+            "type": "string",
+            "nullable": true
+          },
+          "Nickname2": {
+            "type": "string",
+            "nullable": true
+          },
+          "SerialNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResultRange": {
+        "type": "object",
+        "properties": {
+          "StartIndex": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MachineSearchSpecification": {
+        "type": "object",
+        "properties": {
+          "RequestedMachines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Machine"
+            },
+            "nullable": true
+          },
+          "Range": {
+            "$ref": "#/components/schemas/ResultRange"
+          },
+          "DistanceUnit": {
+            "$ref": "#/components/schemas/DistanceUnit"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
